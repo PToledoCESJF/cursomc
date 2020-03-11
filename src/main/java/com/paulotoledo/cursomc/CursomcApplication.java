@@ -15,7 +15,7 @@ import com.paulotoledo.cursomc.domain.Endereco;
 import com.paulotoledo.cursomc.domain.Estado;
 import com.paulotoledo.cursomc.domain.ItemPedido;
 import com.paulotoledo.cursomc.domain.Pagamento;
-import com.paulotoledo.cursomc.domain.PagamentoComBoledo;
+import com.paulotoledo.cursomc.domain.PagamentoComBoleto;
 import com.paulotoledo.cursomc.domain.PagamentoComCartao;
 import com.paulotoledo.cursomc.domain.Pedido;
 import com.paulotoledo.cursomc.domain.Produto;
@@ -135,7 +135,7 @@ public class CursomcApplication implements CommandLineRunner{
 		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
 		ped1.setPagamento(pagto1);
 		
-		Pagamento pagto2 = new PagamentoComBoledo(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
 		ped2.setPagamento(pagto2);	
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));

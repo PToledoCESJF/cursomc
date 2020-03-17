@@ -14,7 +14,6 @@ import com.paulotoledo.cursomc.domain.enums.EstadoPagamento;
 import com.paulotoledo.cursomc.repositories.ItemPedidoRepository;
 import com.paulotoledo.cursomc.repositories.PagamentoRepository;
 import com.paulotoledo.cursomc.repositories.PedidoRepository;
-import com.paulotoledo.cursomc.repositories.ProdutoRepository;
 import com.paulotoledo.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -30,6 +29,8 @@ public class PedidoService {
 	
 	@Autowired	private ItemPedidoRepository itemPedidoRepository;
 	
+	@Autowired	private ClienteService clienteService;
+	
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id +
@@ -40,6 +41,13 @@ public class PedidoService {
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		
+		/*
+		 * usar ClienteService ao invés de ClienteRepository
+		 */
+		
+		obj.setCliente(clienteService.find(obj.getCliente().getId()));
+		
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		
@@ -52,10 +60,15 @@ public class PedidoService {
 		
 		for(ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.0);
-			ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+			/*
+			 * continuar usando o produtoService aqui
+			 */
+			ip.setProduto(produtoService.find(ip.getProduto().getId()));
+			ip.setPreco(ip.getProduto().getPreco());
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItens());
+		System.out.println(obj);
 		return obj;
 		
 	}

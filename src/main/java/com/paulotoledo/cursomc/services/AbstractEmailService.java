@@ -48,6 +48,7 @@ public abstract class AbstractEmailService implements EmailService {
 		return templateEngine.process("email/confirmacaoPedido", context);
 	}
 	
+	@Override
 	public void sendOrderConfirmationHtmlEmail(Pedido obj) {
 		try {
 			MimeMessage mm = prepareMimeMessageFromPedido(obj);
@@ -57,7 +58,7 @@ public abstract class AbstractEmailService implements EmailService {
 		}
 	}
 
-	private MimeMessage prepareMimeMessageFromPedido(Pedido obj) throws MessagingException {
+	protected MimeMessage prepareMimeMessageFromPedido(Pedido obj) throws MessagingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
 		mmh.setTo(obj.getCliente().getEmail());

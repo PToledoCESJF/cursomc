@@ -71,6 +71,10 @@ public class UserSS implements UserDetails{
 		// Aqui pode-se incluir uma lógica para Ativar ou Desativar  usuários.
 		return true;
 	}
+
+	public boolean hasRole(Perfil perfil) {
+		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+	}
 	
 
 }

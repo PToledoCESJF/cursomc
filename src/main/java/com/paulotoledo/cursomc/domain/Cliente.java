@@ -51,6 +51,21 @@ public class Cliente implements Serializable{
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 	
+	/*
+	 * Para salvar a URL da imagem no banco de dados
+	 */
+	
+	private String imageUrl;
+	
+		
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
 	public Cliente() {
 		addPerfil(Perfil.CLIENTE);
 	}
